@@ -112,165 +112,160 @@ mainLoop:
 
                     details=newDetails;
 
-                    
-                    
-                    
-                    
-
                     System.out.println();
-                    System.out.printf(SUCCESS_MSG,"\t" + name + " your account created sucessfully.\n\tDo you want to create new Account (Y/n)? ");
+                    System.out.printf(SUCCESS_MSG,"\t" + name + " Your account created sucessfully.\n\tDo you want to create new Account (Y/n)? ");
                     if(scanner.nextLine().strip().toUpperCase().equals("Y"))continue;
                     screen=DASHBOARD;
                     break;
                     
-                case DEPOSIT:
-                    String accontNo;
-                    do{
-                        valid=true;
-                        if(names.length==0){
-                            System.out.printf(ERROR_MSG,"No Acconts created yet, Please create an Account");
-                            System.out.println("Do you want to create an account? (Y/n)");
-                            if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
-                                screen=DASHBOARD;
-                                continue mainLoop;
-                            }
-                            screen=OPEN_ACCOUNT;
-                            continue mainLoop;
-                        }
-                        else{
-                            System.out.print("\tEnter Acount number to deposit money:");
-                            accontNo = scanner.nextLine().strip().toUpperCase();
-                        if(accontNo.isEmpty()){
-                            System.out.printf(ERROR_MSG,"Accont No. can't be empty");
-                            valid=false;
-                            }
-                        else if(!accontNo.startsWith("SDB-")||accontNo.length()<4){
-                            System.out.printf(ERROR_MSG,"Invalid Format");
-                            valid=false;
-                            }
-                        else{
-                            String numberPart = accontNo.substring(4);
-                            for (int i = 0; i < numberPart.length(); i++) {
-                                if(!Character.isDigit(numberPart.charAt(i))){
-                                    System.out.printf(ERROR_MSG,"Invalid Format");
-                                    valid=false;
-                                    break;
+                // case DEPOSIT:
+                //     String accontNo;
+                //     do{
+                //         valid=true;
+                //         if(details.length==0){
+                //             System.out.printf(ERROR_MSG,"No Acconts created yet, Please create an Account");
+                //             System.out.println("Do you want to create an account? (Y/n)");
+                //             if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
+                //                 screen=DASHBOARD;
+                //                 continue mainLoop;
+                //             }
+                //             screen=OPEN_ACCOUNT;
+                //             continue mainLoop;
+                //         }
+                //         else{
+                //             System.out.print("\tEnter Acount number to deposit money:");
+                //             accontNo = scanner.nextLine().strip().toUpperCase();
+                //         if(accontNo.isEmpty()){
+                //             System.out.printf(ERROR_MSG,"Accont No. can't be empty");
+                //             valid=false;
+                //             }
+                //         else if(!accontNo.startsWith("SDB-")||accontNo.length()<4){
+                //             System.out.printf(ERROR_MSG,"Invalid Format");
+                //             valid=false;
+                //             }
+                //         else{
+                //             String numberPart = accontNo.substring(4);
+                //             for (int i = 0; i < numberPart.length(); i++) {
+                //                 if(!Character.isDigit(numberPart.charAt(i))){
+                //                     System.out.printf(ERROR_MSG,"Invalid Format");
+                //                     valid=false;
+                //                     break;
 
-                                }  
-                            }
-                            numberPart2 = Integer.parseInt(accontNo.substring(4));
-                            if(numberPart2!=names.length){
-                                System.out.printf(ERROR_MSG,"Not Found Account No");
-                                valid=false;
-                            }
+                //                 }  
+                //             }
+                //             numberPart2 = Integer.parseInt(accontNo.substring(4));
+                //             if(numberPart2!=names.length){
+                //                 System.out.printf(ERROR_MSG,"Not Found Account No");
+                //                 valid=false;
+                //             }
                                 
-                        }
-                        if(!valid){
-                            System.out.print("\n\tDo you want to try again? (Y/n)");
-                            if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
-                                screen=DASHBOARD;
-                                continue mainLoop;
-                            }
-                        }
-                        }
+                //         }
+                //         if(!valid){
+                //             System.out.print("\n\tDo you want to try again? (Y/n)");
+                //             if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
+                //                 screen=DASHBOARD;
+                //                 continue mainLoop;
+                //             }
+                //         }
+                //         }
 
-                    }while(!valid);
-                    System.out.printf("\tCurrent Balance:Rs.%s\n",deposits[numberPart2-1]);
-                    System.out.print("\tDeposit Amount:");
-                    deposit= scanner.nextDouble();
-                    scanner.nextLine();
-                    if(deposit<500){
-                        System.out.printf(ERROR_MSG,"Insuficient Amount\n");
-                        System.out.print("do you screenwant to redeposit? (Y/n)");
-                        if(scanner.nextLine().strip().toUpperCase().equals("Y")){
-                            screen=DEPOSIT;
-                            continue mainLoop;
-                        }
+                //     }while(!valid);
+                //     System.out.printf("\tCurrent Balance:Rs.%s\n",deposits[numberPart2-1]);
+                //     System.out.print("\tDeposit Amount:");
+                //     deposit= scanner.nextDouble();
+                //     scanner.nextLine();
+                //     if(deposit<500){
+                //         System.out.printf(ERROR_MSG,"Insuficient Amount\n");
+                //         System.out.print("do you screenwant to redeposit? (Y/n)");
+                //         if(scanner.nextLine().strip().toUpperCase().equals("Y")){
+                //             screen=DEPOSIT;
+                //             continue mainLoop;
+                //         }
 
-                    }
-                    deposits[numberPart2-1]=deposit+deposits[numberPart2-1];
-                    System.out.printf("\tNew balance:Rs.%.2f",deposits[numberPart2-1]);
-                    System.out.print("Do you want to continue? (Y/n)");
-                    if(scanner.nextLine().strip().toUpperCase().equals("Y")){
-                        screen=DEPOSIT;
-                        continue mainLoop;
-                    }
-                    screen=DASHBOARD;
-                    break;
-                case WITHDRAW:
-                    do{
-                        valid=true;
-                        if(names.length==0){
-                            System.out.printf(ERROR_MSG,"No Acconts created yet, Please create an Account");
-                            System.out.println("Do you want to create an account? (Y/n)");
-                            if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
-                                screen=DASHBOARD;
-                                continue mainLoop;
-                            }
-                            screen=OPEN_ACCOUNT;
-                            continue mainLoop;
-                        }
-                        else{
-                            System.out.print("\tEnter Acount number to Withraw money:");
-                            accontNo = scanner.nextLine().strip().toUpperCase();
-                        if(accontNo.isEmpty()){
-                            System.out.printf(ERROR_MSG,"Accont No. can't be empty");
-                            valid=false;
-                            }
-                        else if(!accontNo.startsWith("SDB-")||accontNo.length()<4){
-                            System.out.printf(ERROR_MSG,"Invalid Format");
-                            valid=false;
-                            }
-                        else{
-                            String numberPart = accontNo.substring(4);
-                            for (int i = 0; i < numberPart.length(); i++) {
-                                if(!Character.isDigit(numberPart.charAt(i))){
-                                    System.out.printf(ERROR_MSG,"Invalid Format");
-                                    valid=false;
-                                    break;
+                //     }
+                //     deposits[numberPart2-1]=deposit+deposits[numberPart2-1];
+                //     System.out.printf("\tNew balance:Rs.%.2f",deposits[numberPart2-1]);
+                //     System.out.print("Do you want to continue? (Y/n)");
+                //     if(scanner.nextLine().strip().toUpperCase().equals("Y")){
+                //         screen=DEPOSIT;
+                //         continue mainLoop;
+                //     }
+                //     screen=DASHBOARD;
+                //     break;
+                // case WITHDRAW:
+                //     do{
+                //         valid=true;
+                //         if(names.length==0){
+                //             System.out.printf(ERROR_MSG,"No Acconts created yet, Please create an Account");
+                //             System.out.println("Do you want to create an account? (Y/n)");
+                //             if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
+                //                 screen=DASHBOARD;
+                //                 continue mainLoop;
+                //             }
+                //             screen=OPEN_ACCOUNT;
+                //             continue mainLoop;
+                //         }
+                //         else{
+                //             System.out.print("\tEnter Acount number to Withraw money:");
+                //             accontNo = scanner.nextLine().strip().toUpperCase();
+                //         if(accontNo.isEmpty()){
+                //             System.out.printf(ERROR_MSG,"Accont No. can't be empty");
+                //             valid=false;
+                //             }
+                //         else if(!accontNo.startsWith("SDB-")||accontNo.length()<4){
+                //             System.out.printf(ERROR_MSG,"Invalid Format");
+                //             valid=false;
+                //             }
+                //         else{
+                //             String numberPart = accontNo.substring(4);
+                //             for (int i = 0; i < numberPart.length(); i++) {
+                //                 if(!Character.isDigit(numberPart.charAt(i))){
+                //                     System.out.printf(ERROR_MSG,"Invalid Format");
+                //                     valid=false;
+                //                     break;
 
-                                }  
-                            }
-                            numberPart2 = Integer.parseInt(accontNo.substring(4));
-                            if(numberPart2!=names.length){
-                                System.out.printf(ERROR_MSG,"Not Found Account No");
-                                valid=false;
-                            }
+                //                 }  
+                //             }
+                //             numberPart2 = Integer.parseInt(accontNo.substring(4));
+                //             if(numberPart2!=names.length){
+                //                 System.out.printf(ERROR_MSG,"Not Found Account No");
+                //                 valid=false;
+                //             }
                                 
-                        }
-                        if(!valid){
-                            System.out.print("\n\tDo you want to try again? (Y/n)");
-                            if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
-                                screen=DASHBOARD;
-                                continue mainLoop;
-                            }
-                        }
-                        }
+                //         }
+                //         if(!valid){
+                //             System.out.print("\n\tDo you want to try again? (Y/n)");
+                //             if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
+                //                 screen=DASHBOARD;
+                //                 continue mainLoop;
+                //             }
+                //         }
+                //         }
 
-                    }while(!valid);
-                    System.out.printf("\tCurrent Balance:Rs.%s\n",deposits[numberPart2-1]);
-                    System.out.print("\tWithdraw Amount:");
+                //     }while(!valid);
+                //     System.out.printf("\tCurrent Balance:Rs.%s\n",deposits[numberPart2-1]);
+                //     System.out.print("\tWithdraw Amount:");
                     
-                    deposit= scanner.nextDouble();
-                    scanner.nextLine();
-                    if(deposit<500){
-                        System.out.printf(ERROR_MSG,"Insuficient Amount\n");
-                        System.out.print("do you screenwant to redeposit? (Y/n)");
-                        if(scanner.nextLine().strip().toUpperCase().equals("Y")){
-                            screen=DEPOSIT;
-                            continue mainLoop;
-                        }
+                //     deposit= scanner.nextDouble();
+                //     scanner.nextLine();
+                //     if(deposit<500){
+                //         System.out.printf(ERROR_MSG,"Insuficient Amount\n");
+                //         System.out.print("do you screenwant to redeposit? (Y/n)");
+                //         if(scanner.nextLine().strip().toUpperCase().equals("Y")){
+                //             screen=DEPOSIT;
+                //             continue mainLoop;
+                //         }
 
-                    }
-                    deposits[numberPart2-1]=deposit+deposits[numberPart2-1];
-                    System.out.printf("\tNew balance:Rs.%.2f",deposits[numberPart2-1]);
-                    System.out.print("Do you want to continue? (Y/n)");
-                    if(scanner.nextLine().strip().toUpperCase().equals("Y")){
-                        screen=DEPOSIT;
-                        continue mainLoop;
-                    }
-                    screen=DASHBOARD;
-                    break;
+                //     }
+                //     deposits[numberPart2-1]=deposit+deposits[numberPart2-1];
+                //     System.out.printf("\tNew balance:Rs.%.2f",deposits[numberPart2-1]);
+                //     System.out.print("Do you want to continue? (Y/n)");
+                //     if(scanner.nextLine().strip().toUpperCase().equals("Y")){
+                //         screen=DEPOSIT;
+                //         continue mainLoop;
+                //     }
+                //     screen=DASHBOARD;
+                //     break;
                     
                     
 
