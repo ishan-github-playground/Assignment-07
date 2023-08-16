@@ -21,8 +21,10 @@ public class Assignment07{
         final String ERROR_MSG = String.format("\t%s%s%s\n", COLOR_RED_BOLD, "%s", RESET);
         final String SUCCESS_MSG = String.format("\t%s%s%s\n", COLOR_GREEN_BOLD, "%s", RESET);
         
-        String[] names = new String[0];
-        double[] deposits=new double[0];
+        // String[] names = new String[0];
+        // double[] deposits=new double[0];
+
+        String[][] details=new String[0][];
         
         String screen = DASHBOARD;
         int numberPart2=0;
@@ -59,7 +61,7 @@ mainLoop:
                     }
                     break;
                 case OPEN_ACCOUNT:
-                    System.out.printf("\tID: SDB-%05d \n", (names.length + 1));
+                    System.out.printf("\tID: SDB-%05d \n", (details.length + 1));
 
 
                     boolean valid;
@@ -100,20 +102,20 @@ mainLoop:
 
 
                     }while(!valid);
-
-                    String[] newNames=new String[names.length+1];
-                    for (int i = 0; i < names.length; i++) {
-                        newNames[i]=names[i];
+                    
+                    String[][] newDetails=new String[details.length+1][2];
+                    for (int i = 0; i < details.length; i++) {
+                        newDetails[i]=details[i];
                     }
-                    newNames[newNames.length-1]=name;
-                    names=newNames;
+                    newDetails[newDetails.length-1][0]=name;
+                    newDetails[newDetails.length-1][1]=Double.toString(deposit);
 
-                    double[] newDeposits=new double[deposits.length+1];
-                    for (int i = 0; i < deposits.length; i++) {
-                        newDeposits[i]=deposits[i];
-                    }
-                    newDeposits[newDeposits.length-1]=deposit;
-                    deposits=newDeposits;
+                    details=newDetails;
+
+                    
+                    
+                    
+                    
 
                     System.out.println();
                     System.out.printf(SUCCESS_MSG,"\t" + name + " your account created sucessfully.\n\tDo you want to create new Account (Y/n)? ");
