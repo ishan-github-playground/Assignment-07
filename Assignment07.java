@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Assignment07{
@@ -21,8 +22,7 @@ public class Assignment07{
         final String ERROR_MSG = String.format("\t%s%s%s\n", COLOR_RED_BOLD, "%s", RESET);
         final String SUCCESS_MSG = String.format("\t%s%s%s\n", COLOR_GREEN_BOLD, "%s", RESET);
         
-        // String[] names = new String[0];
-        // double[] deposits=new double[0];
+        
 
         String[][] details=new String[0][];
         
@@ -33,7 +33,7 @@ mainLoop:
         do{
             final String APP_TITLE = String.format("%s%s%s",
             COLOR_BLUE_BOLD, screen, RESET);
-            // System.out.println(CLEAR);
+            System.out.println(CLEAR);
             System.out.println("\t" + APP_TITLE + "\n");
 
             switch(screen){
@@ -93,7 +93,7 @@ mainLoop:
                         valid=true;
                         System.out.print("\tInitial Deposit:");
                         deposit=scanner.nextDouble();
-                        scanner.nextLine();
+                        scanner.nextLine();  
                         if(deposit<5000){
                             System.out.printf(ERROR_MSG,"Insuficient Amount Please Deposite more than Rs.5000.00");
                             valid=false;
@@ -111,6 +111,7 @@ mainLoop:
                     newDetails[newDetails.length-1][1]=Double.toString(deposit);
 
                     details=newDetails;
+                    System.out.println(Arrays.toString(details[0]));
 
                     System.out.println();
                     System.out.printf(SUCCESS_MSG,name + " Your account created sucessfully.\n\tDo you want to create new Account (Y/n)? ");
@@ -154,7 +155,7 @@ mainLoop:
                                 }  
                             }
                             numberPart2 = Integer.parseInt(accontNo.substring(4));
-                            if(numberPart2!=details.length){
+                            if(numberPart2>details.length){
                                 System.out.printf(ERROR_MSG,"Not Found Account No");
                                 valid=false;
                             }
@@ -227,7 +228,7 @@ mainLoop:
                                 }  
                             }
                             numberPart2 = Integer.parseInt(accontNo.substring(4));
-                            if(numberPart2!=details.length){
+                            if(numberPart2>details.length){
                                 System.out.printf(ERROR_MSG,"Not Found Account No");
                                 valid=false;
                             }
@@ -449,7 +450,7 @@ mainLoop:
                                 }  
                             }
                             numberPart2 = Integer.parseInt(accontNo.substring(4));
-                            if(numberPart2!=details.length){
+                            if(numberPart2>details.length){
                                 System.out.printf(ERROR_MSG,"Not Found Account No");
                                 valid=false;
                             }
@@ -457,7 +458,7 @@ mainLoop:
                         }
                         if(!valid){
                             System.out.print("\n\tDo you want to try again? (Y/n)");
-                            if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
+                             if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
                                 screen=DASHBOARD;
                                 continue mainLoop;
                             }
@@ -478,7 +479,86 @@ mainLoop:
                     break;
                     
                 case DROP_ACCOUNT:
+                    do{
+                        valid=true;
+                        if(details.length==0){
+                            System.out.printf(ERROR_MSG,"No Acconts created yet, Please create an Account");
+                            System.out.print("\tDo you want to create an account? (Y/n)");
+                            if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
+                                screen=DASHBOARD;
+                                continue mainLoop;
+                            }
+                            screen=OPEN_ACCOUNT;
+                            continue mainLoop;
+                        }
+                        else{
+                            System.out.print("\tEnter Account number to Drop:");
+                            accontNo = scanner.nextLine().strip().toUpperCase();
+                        if(accontNo.isEmpty()){
+                            System.out.printf(ERROR_MSG,"Accont No. can't be empty");
+                            valid=false;
+                            }
+                        else if(!accontNo.startsWith("SDB-")||accontNo.length()<4){
+                            System.out.printf(ERROR_MSG,"Invalid Format");
+                            valid=false;
+                            }
+                        else{
+                            String numberPart = accontNo.substring(4);
+                            for (int i = 0; i < numberPart.length(); i++) {
+                                if(!Character.isDigit(numberPart.charAt(i))){
+                                    System.out.printf(ERROR_MSG,"Invalid Format");
+                                    valid=false;
+                                    break;
 
+                                }  
+                            }
+                            numberPart2 = Integer.parseInt(accontNo.substring(4));
+                            if(numberPart2>details.length){
+                                System.out.printf(ERROR_MSG,"Not Found Account No");
+                                valid=false;
+                            }
+                                
+                        }
+                        if(!valid){
+                            System.out.print("\n\tDo you want to try again? (Y/n)");
+                            if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
+                                screen=DASHBOARD;
+                                continue mainLoop;
+                            }
+                        }
+                        }
+
+                    }while(!valid);
+                    System.out.printf("\tName.%s\n",details[numberPart2-1][0]);
+                    System.out.printf("\tAccoumt Balance:Rs.%s\n",details[numberPart2-1][1]);
+
+                    System.out.print("\tAre you sure want to Delete this Account:");
+                     if(!scanner.nextLine().strip().toUpperCase().equals("Y")){
+                        screen=DASHBOARD;
+                        continue mainLoop;
+
+                    }
+                    newDetails=new String[details.length-1][];
+                    int index=0;
+                    for (int i = 0; i < details.length; i++) {
+                        if(i==numberPart2) continue;
+
+                        newDetails[index]=details[i];
+                        index++;
+                    }
+                    details=newDetails;
+                    
+                    
+                   
+                    System.out.printf("\t%s has been deleted sucessfully\n",details[numberPart2-1][0]);
+                    System.out.print("\tDo you want to continue? (Y/n)");
+                    if(scanner.nextLine().strip().toUpperCase().equals("Y")){
+                        screen=DROP_ACCOUNT;
+                        continue mainLoop;
+                    }
+                    screen=DASHBOARD;
+                    break;
+                    
             }
 
         }while(true);
